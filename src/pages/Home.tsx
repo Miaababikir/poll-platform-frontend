@@ -22,7 +22,7 @@ const Home = () => {
                             <Link className="font-semibold text-lg" to="#">Top web frameworks this year</Link>
                             <div className="mt-2 flex items-center justify-between">
                                 <div className="flex items-center">
-                                    <img className="w-6 rounded-full" src="https://picsum.photos/200" alt="User Photo"/>
+                                    <img className="w-6 rounded-full" src="https://picsum.photos/200" alt="User"/>
                                     <span className="ml-2 text-sm font-semibold">Mosab Ibrahim</span>
                                 </div>
                                 <span className="text-xs text-gray-400">2 Hours ago</span>
