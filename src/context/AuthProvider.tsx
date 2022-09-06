@@ -1,19 +1,32 @@
-import {createContext, useState} from "react";
+import {createContext, useReducer} from "react";
 import {getByKey} from "../utils/localStorage";
 
-const authState = {
-    user: getByKey("user", undefined)
+type StateType = {
+    user: any,
+    dispatch?: any
 }
 
-export const AuthContext = createContext((authState));
+const initialState: StateType = {
+    user: getByKey('user', null)
+}
+
+export const AuthContext = createContext(initialState);
+
+export const authReducer = (state: StateType, action: any): StateType => {
+    switch (action.type) {
+        case 'LOGIN': {
+            return {user: action.payload}
+        }
+        default:
+            return state;
+    }
+}
 
 export const AuthProvider = ({children}: any) => {
-    const [user] = useState(authState);
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
     return (
-        <AuthContext.Provider value={{
-            user
-        }}>
+        <AuthContext.Provider value={{...state, dispatch}}>
             {children}
         </AuthContext.Provider>
     )

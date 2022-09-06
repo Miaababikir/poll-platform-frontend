@@ -1,7 +1,7 @@
 
 export const getByKey = (key: string, defaultValue: any) => {
     const item = localStorage.getItem(key);
-
+    console.log({item})
     if (!item) {
         return defaultValue;
     }
