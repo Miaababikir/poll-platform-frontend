@@ -7,6 +7,7 @@ import Create from "./pages/polls/Create";
 import Home from "./pages/Home";
 import {AuthProvider} from "./context/AuthProvider";
 import AuthRoute from "./utils/AuthRoute";
+import Show from "./pages/polls/Show";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -22,6 +23,9 @@ root.render(
                         <AuthRoute>
                             <Create/>
                         </AuthRoute>
+                    }/>
+                    <Route path="/polls/:id" element={
+                        <Show/>
                     }/>
                 </Routes>
             </BrowserRouter>

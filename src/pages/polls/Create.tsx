@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Layout from "../../components/Layout";
+import {format} from "date-fns";
 
 interface Option {
     title: string
@@ -7,6 +8,7 @@ interface Option {
 
 interface Poll {
     title: string,
+    expireAt: string,
     options: Option[]
 }
 
@@ -14,16 +16,29 @@ const Create: React.FC = () => {
 
     const initialState = {
         title: "",
+        expireAt: format(new Date(), 'YYY-MM-dd'),
         options: [{title: ""}, {title: ""}],
     }
 
     const [poll, setPoll] = useState<Poll>(initialState);
 
 
-    const addOption = () => {
+    const addOption = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log("aaaaaaaaa")
+        event.preventDefault();
         const options = [...poll.options, {title: ""}];
 
         setPoll({...poll, options});
+    }
+
+    const handleOptionChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+        let options = poll.options;
+        options[index]['title'] = event.target.value;
+
+        setPoll({
+            ...poll,
+            options: [...options]
+        })
     }
 
     return (
@@ -36,22 +51,33 @@ const Create: React.FC = () => {
                         <div>
                             <span className="block text-sm font-medium text-gray-700">Title</span>
                             <input type="text"
-                                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
+                                   value={poll.title}
+                                   onChange={(event) => setPoll({...poll, title: event.target.value})}
+                            />
                         </div>
                         <div>
                             <span className="block text-sm font-medium text-gray-700">Expire At</span>
-                            <input type="date" placeholder="Title"
-                                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"/>
+                            <input type="date"
+                                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
+                                   value={poll.expireAt}
+                                   onChange={(event) => setPoll({...poll, expireAt: event.target.value})}
+                            />
                         </div>
                     </div>
                     <div className="mt-4">
-                        <span className="block text-sm font-medium text-gray-700">Poll Options</span>
-
                         <div className="grid grid-cols-2 gap-2">
-                            <input type="text" placeholder="Enter option here"
-                                   className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"/>
-                            <input type="text" placeholder="Enter option here"
-                                   className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"/>
+                            {poll.options.map((option, index) => (
+                                <div key={index}>
+                                    <span
+                                        className="block text-sm font-medium text-gray-700">Options #{index + 1}</span>
+                                    <input type="text"
+                                           className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
+                                           value={option.title}
+                                           onChange={(event) => handleOptionChange(index, event)}
+                                    />
+                                </div>
+                            ))}
                             <div className="flex items-center">
                                 <button className="px-2 py-2 bg-gray-700 text-white rounded" onClick={addOption}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

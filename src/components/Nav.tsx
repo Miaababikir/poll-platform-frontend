@@ -5,7 +5,7 @@ import {AuthContext} from "../context/AuthProvider";
 const Nav = () => {
 
     const {user} = useContext(AuthContext);
-    console.log({user});
+
     return (
         <nav className="bg-white shadow-sm">
             <div className="mx-auto max-w-7xl py-4 flex justify-between items-center sm:px-6 lg:px-8">
