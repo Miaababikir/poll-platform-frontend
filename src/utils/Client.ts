@@ -5,13 +5,12 @@ const config = {
     baseURL: "http://localhost:8080/api",
 }
 
-const user = getByKey('user', {});
-
 export const Http = axios.create(config);
 
-export const AuthHttp = axios.create({
-    ...config,
-    headers: {
+export const getHeaders = () => {
+    const user = getByKey('user', {});
+
+    return {
         Authorization: `Bearer ${user.access_token || ''}`
     }
-});
+}
